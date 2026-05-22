@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>xx xx – Java-utvecklare</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap"
+          rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #f7f5f2;
+            --surface: #ffffff;
+            --text: #1a1a18;
+            --muted: #6b6b65;
+            --accent: #1e4976;
+            --accent-light: #e8f0f7;
+            --border: #e2dfd9;
+            --radius: 12px;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 60px 0 48px;
+        }
+
+        .container {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: flex-start;
+            gap: 32px;
+        }
+
+        .avatar {
+            width: 88px;
+            height: 88px;
+            border-radius: 50%;
+            background: var(--accent-light);
+            border: 2px solid var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'DM Serif Display', serif;
+            font-size: 28px;
+            color: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .header-text h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.4rem;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            margin-bottom: 8px;
+        }
+
+        .header-text .role {
+            font-size: 1rem;
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+
+        .header-text .intro {
+            font-size: 0.95rem;
+            color: var(--muted);
+            max-width: 480px;
+        }
+
+        nav {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        nav a {
+            display: block;
+            padding: 14px 16px;
+            text-decoration: none;
+            color: var(--muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-bottom: 2px solid transparent;
+            transition: color 0.2s, border-color 0.2s;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        main {
+            padding: 48px 0 80px;
+        }
+
+        section {
+            margin-bottom: 56px;
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .about-text {
+            font-size: 1.05rem;
+            color: var(--text);
+            max-width: 600px;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .skill-group h3 {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--muted);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .tag {
+            background: var(--accent-light);
+            color: var(--accent);
+            font-size: 0.82rem;
+            font-weight: 500;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 16px;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .timeline-item:last-child {
+            border-bottom: none;
+        }
+
+        .timeline-date {
+            font-size: 0.85rem;
+            color: var(--muted);
+            padding-top: 2px;
+        }
+
+        .timeline-content h3 {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+
+        .timeline-content p {
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+
+        .timeline-content p.company {
+            font-size: 0.9rem;
+            color: #3a7abf;
+        }
+
+        .job-list {
+            margin-top: 6px;
+            padding-left: 16px;
+            font-size: 0.88rem;
+            color: var(--muted);
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        /* Etikett för ideella uppdrag */
+        .side-label {
+            font-size: 0.72rem;
+            font-weight: 500;
+            color: var(--accent);
+            background: var(--accent-light);
+            padding: 2px 8px;
+            border-radius: 20px;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        .contact-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .contact-list li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+        }
+
+        .contact-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--accent-light);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .contact-list a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .contact-list a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 24px;
+            text-align: center;
+            font-size: 0.82rem;
+            color: var(--muted);
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        section {
+            animation: fadeUp 0.5s ease both;
+        }
+
+        section:nth-child(1) {
+            animation-delay: 0.05s;
+        }
+
+        section:nth-child(2) {
+            animation-delay: 0.15s;
+        }
+
+        section:nth-child(3) {
+            animation-delay: 0.25s;
+        }
+
+        section:nth-child(4) {
+            animation-delay: 0.35s;
+        }
+
+        section:nth-child(5) {
+            animation-delay: 0.45s;
+        }
+
+        @media (max-width: 600px) {
+            .header-inner {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .header-text h1 {
+                font-size: 1.8rem;
+            }
+
+            .timeline-item {
+                grid-template-columns: 1fr;
+                gap: 4px;
+            }
+
+            nav a {
+                padding: 12px 10px;
+                font-size: 0.82rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <div class="header-inner">
+            <!-- Byt ut initialer -->
+            <div class="avatar">K.C</div>
+            <div class="header-text">
+                <!-- Byt ut namn -->
+                <h1>Kattis Calmvik</h1>
+                <p class="role">Java-utvecklare · Examineras 2027</p>
+                <p class="intro">Systemutvecklarstudent med fokus på Java och Spring Boot. Examineras 2027
+                    och söker nu min första tjänst som Java-utvecklare där jag hoppas kunna
+                    bidra och fortsätta växa som utvecklare.</p>
+            </div>
+        </div>
+    </div>
+</header>
+
+<nav>
+    <ul>
+        <li><a href="#om-mig" class="active">Om mig</a></li>
+        <li><a href="#tekniker">Tekniker</a></li>
+        <li><a href="#utbildning">Utbildning</a></li>
+        <li><a href="#erfarenhet">Erfarenhet</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
+    </ul>
+</nav>
+
+<main>
+    <div class="container">
+
+        <!-- OM MIG -->
+        <section id="om-mig">
+            <p class="section-label">Om mig</p>
+            <p class="about-text">
+                Jag studerar till Javautvecklare vid IT-Högskolan och gör en medveten karriärväxling
+                från finans till systemutveckling. Jag har arbetat i verksamhetsnära roller inom
+                Handelsbanken i många år och har genom det fått god förståelse för hur affär, data
+                och system samverkar i finansiella miljöer. Jag drivs av problemlösning och vill
+                utveckla hållbara och användarvänliga lösningar som skapar värde för både verksamhet
+                och användare. Genom mina tidigare roller som controller, riskanalytiker och business
+                system manager har jag arbetat nära både affär och IT i tvärfunktionella sammanhang.
+                Nu tar jag steget fullt ut och söker min första tjänst som Javautvecklare.
+            </p>
+        </section>
+
+        <!-- TEKNIKER -->
+        <section id="tekniker">
+            <p class="section-label">Tekniker</p>
+            <div class="skills-grid">
+
+                <div class="skill-group">
+                    <h3>Backend</h3>
+                    <div class="skill-tags">
+                        <span class="tag">Java</span>
+                        <span class="tag">Spring Boot</span>
+                        <span class="tag">Jakarta EE</span>
+                        <span class="tag">REST API</span>
+                        <span class="tag">JPA/Hibernate</span>
+                        <span class="tag">JDBC</span>
+                        <span class="tag">SQL</span>
+                    </div>
+                </div>
+
+                <div class="skill-group">
+                    <h3>Verktyg & DevOps</h3>
+                    <div class="skill-tags">
+                        <span class="tag">Git/GitHub</span>
+                        <span class="tag">Maven</span>
+                        <span class="tag">Docker</span>
+                        <span class="tag">CI/CD</span>
+                        <span class="tag">IntelliJ IDEA</span>
+                        <span class="tag">JUnit</span>
+                    </div>
+                </div>
+
+                <div class="skill-group">
+                    <h3>Webb</h3>
+                    <div class="skill-tags">
+                        <span class="tag">HTML</span>
+                        <span class="tag">CSS</span>
+                        <span class="tag">JavaScript</span>
+                    </div>
+                </div>
+
+                <div class="skill-group">
+                    <h3>Personliga</h3>
+                    <div class="skill-tags">
+                        <span class="tag">Analytisk</span>
+                        <span class="tag">Strukturerad</span>
+                        <span class="tag">Teamvan</span>
+                        <span class="tag">Noggrann</span>
+                        <span class="tag">Nyfiken</span>
+                    </div>
+                </div>
+
+                <div class="skill-group">
+                    <h3>Övrigt</h3>
+                    <div class="skill-tags">
+                        <span class="tag">Microsoft Office</span>
+                        <span class="tag">SwedSec-licens</span>
+                        <span class="tag">Lean</span>
+                        <span class="tag">Svenska</span>
+                        <span class="tag">Engelska</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- UTBILDNING -->
+        <section id="utbildning">
+            <p class="section-label">Utbildning</p>
+
+            <div class="timeline-item">
+                <span class="timeline-date"> Augusti 2025 – pågående</span>
+                <div class="timeline-content">
+                    <h3>Javautvecklare, 400 YH-poäng</h3>
+                    <p>IT-Högskolan, Stockholm</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <span class="timeline-date">Augusti 2003 – april 2007</span>
+                <div class="timeline-content">
+                    <h3>Magisterexamen i företagsekonomi</h3>
+                    <p>Finansiell inriktning, 240 hp · Stockholms universitet, Stockholm</p>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <span class="timeline-date">Augusti 1998 – juni 2001</span>
+                <div class="timeline-content">
+                    <h3>Samhällsprogrammet – Ekonomi</h3>
+                    <p>Danderyds gymnasium, Stockholm</p>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ARBETSLIVSERFARENHET -->
+        <section id="erfarenhet">
+            <p class="section-label">Arbetslivserfarenhet</p>
+
+            <div class="timeline-item">
+                <span class="timeline-date">Maj 2018 – aug 2025</span>
+                <div class="timeline-content">
+                    <h3>Financial Controller</h3>
+                    <p class="company">Handelsbanken, Stockholm</p>
+                    <ul class="job-list">
+                        <li>Analys, uppföljning och prognos av kostnader</li>
+                        <li>Bokslutsarbete och ekonomisk rapportering</li>
+                        <li>Stöd till chefer i ekonomiska och verksamhetsrelaterade frågor</li>
+                        <li>Deltagande i ledningsgruppsmöten</li>
+                        <li>Processutveckling och lean/agilt arbetssätt</li>
+                        <li>Affärs- och verksamhetsanalys kopplat till produkter inom vardagstjänster</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <span class="timeline-date">Aug 2012 – maj 2018</span>
+                <div class="timeline-content">
+                    <h3>Riskkontroll</h3>
+                    <p class="company">Handelsbanken Fonder, Stockholm</p>
+                    <ul class="job-list">
+                        <li>Riskkontroll, regelefterlevnad och restriktionskontroll av Handelsbankens fonder</li>
+                        <li>Kontroll och uppföljning av lagar, regler, föreskrifter och riskprofiler</li>
+                        <li>Administration och uppföljning i compliance- och restriktionssystem</li>
+                        <li>Samarbete med förvaltning, juridik och affärsstöd kring regelverk</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <span class="timeline-date">Mar 2010 – aug 2012</span>
+                <div class="timeline-content">
+                    <h3>Business System Manager</h3>
+                    <p class="company">Handelsbanken Capital Markets, Stockholm</p>
+                    <ul class="job-list">
+                        <li>Systemstöd och verksamhetsnära förvaltning av tradingsystem (ca 400 användare)</li>
+                        <li>Länk mellan verksamhet och IT i projekt och systemuppgraderingar</li>
+                        <li>Samarbete med utvecklingsteam vid systemförändringar och test</li>
+                        <li>Test av ny funktionalitet i testmiljöer</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <span class="timeline-date">Januari 2007 – mars 2010</span>
+                <div class="timeline-content">
+                    <h3>Tidigare roller inom finans</h3>
+                    <p class="company">Operations/Derivat backoffice · Handelsbanken Capital Markets<br>
+                        Fondadministratör · HQ Fonder</p>
+                    <ul class="job-list">
+                        <li>Backoffice- och administrativt arbete inom derivathandel och fondförvaltning</li>
+                        <li>Kontroll, avstämning och kvalitetssäkring av transaktioner samt värdering av fondkurser</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <span class="timeline-date">Februari 2022 – augusti 2024</span>
+                <div class="timeline-content">
+                    <h3>Styrelseledamot & Kassör <span class="side-label">Ideellt uppdrag</span></h3>
+                    <p class="company">Föräldrakooperativet Sebran, Kungsholmen</p>
+                    <ul class="job-list">
+                        <li>Ansvar för ekonomi, budget, lönerevision och uppföljning</li>
+                    </ul>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- KONTAKT -->
+        <section id="kontakt">
+            <p class="section-label">Kontakt</p>
+            <ul class="contact-list">
+
+                <li>
+                    <div class="contact-icon">✉</div>
+                    <!-- Lägg in mejladress -->
+                    <a href="mailto:kattiscalmvik@outlook.som">kattiscalmvik@outlook.com</a>
+                </li>
+
+                <li>
+                    <div class="contact-icon">⌥</div>
+                    <!-- Lägg in GitHub-länk -->
+                    <a href="https://github.com/kattis82" target="_blank">github.com/kattis82</a>
+                </li>
+
+                <li>
+                    <div class="contact-icon">in</div>
+                    <!-- Byt ut mot din LinkedIn-länk -->
+                    <a href="http://www.linkedin.com/in/kattis-calmvik-37908827" target="_blank">linkedin.com/kattis-calmvik-37908827</a>
+                </li>
+
+            </ul>
+        </section>
+
+    </div>
+</main>
+
+<footer>
+    <!-- Byt ut namn -->
+    <p>© 2026 Kattis Calmvik · Byggd med HTML &amp; CSS · Publicerad via GitHub Pages</p>
+</footer>
+
+<script>
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('nav a');
+    window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            if (window.scrollY >= section.offsetTop - 100) current = section.getAttribute('id');
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+        });
+    });
+</script>
+
+</body>
+</html>
